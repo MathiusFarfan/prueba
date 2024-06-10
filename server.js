@@ -41,13 +41,14 @@ app.post('/update-gtm-table', async (req, res) => {
   const { inputId, outputId } = req.body;
   try {
     const gtm = google.tagmanager({ version: 'v2', auth: oAuth2Client });
-
+    console.log('hola');
     // Obtener la última versión del contenedor
     const container = await gtm.accounts.containers.get({
       accountId: '6228833093',
       containerId: '183956141'
     });
     const latestVersion = container.data.containerVersionId;
+    console.log('holaaaaaaaaaaa');
     console.log(latestVersion);
     // Actualizar la versión del contenedor con los nuevos valores
     const updatedContainer = await gtm.accounts.containers.versions.update({
