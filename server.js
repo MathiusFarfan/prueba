@@ -44,8 +44,9 @@ app.post('/update-gtm-table', async (req, res) => {
     console.log('hola');
     // Obtener la última versión del contenedor
     const container = await gtm.accounts.containers.get({
-      accountId: '6228833093',
-      containerId: '183956141'
+      path: 'accounts/6228833093/containers/183956141'
+      //accountId: '6228833093',
+      //containerId: '183956141'
       
     });
     const latestVersion = container.data.containerVersionId;
