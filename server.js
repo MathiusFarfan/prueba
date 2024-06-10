@@ -41,20 +41,29 @@ app.post('/update-gtm-table', async (req, res) => {
   const { inputId, outputId } = req.body;
   try {
     const gtm = google.tagmanager({ version: 'v2', auth: oAuth2Client });
-    const containerVersion = await gtm.accounts.containers.versions.latest({
+
+    // Obtener la última versión del contenedor
+    const container = await gtm.accounts.containers.get({
       accountId: '6228833093',
-      containerId: '183956141',
+      containerId: '183956141'
     });
+    const latestVersion = container.data.containerVersionId;
 
-    const variable = containerVersion.data.variable.find(v => v.name === 'varprueba');
-    variable.parameter.push({ key: 'input', value: inputId });
-    variable.parameter.push({ key: 'output', value: outputId });
-
-    await gtm.accounts.containers.versions.update({
+    // Actualizar la versión del contenedor con los nuevos valores
+    const updatedContainer = await gtm.accounts.containers.versions.update({
       accountId: '6228833093',
       containerId: '183956141',
-      containerVersionId: containerVersion.data.containerVersionId,
-      resource: containerVersion.data,
+      containerVersionId: latestVersion,
+      resource: {
+        ...container.data,
+        variable: container.data.variable.map(v => {
+          if (v.name === 'varprueba') {
+            v.parameter.push({ key: 'input', value: inputId });
+            v.parameter.push({ key: 'output', value: outputId });
+          }
+          return v;
+        })
+      }
     });
 
     res.status(200).json({ message: 'Table updated successfully' });
