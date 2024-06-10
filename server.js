@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 const oAuth2Client = new google.auth.OAuth2(
   '305681698109-d8r1urok95d2t48qdsm27to81r9psmlo.apps.googleusercontent.com',
   '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',
-  'YOUR_REDIRECT_URI'
+  'https://prueba-q44y.onrender.com/oauth2callback'
 );
 
 // Servir el archivo HTML
