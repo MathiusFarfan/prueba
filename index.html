@@ -1,39 +1,30 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulario GTM</title>
-</head>
-<body>
-  <form id="gtm-update-form">
-    <label for="folder-name">Nombre de la carpeta:</label>
-    <input type="text" id="folder-name" name="folder-name" required><br>
-    <button type="submit">Agregar Carpeta</button>
-  </form>
+<form id="gtm-update-form">
+  <label for="input-id">ID de Página/Usuario:</label>
+  <input type="text" id="input-id" name="input-id" required><br>
+  <label for="output-id">ID de Píxel de Facebook:</label>
+  <input type="text" id="output-id" name="output-id" required><br>
+  <button type="submit">Actualizar</button>
+</form>
 
-  <script>
-    document.getElementById('gtm-update-form').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const folderName = document.getElementById('folder-name').value;
+<script>
+document.getElementById('gtm-update-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const inputId = document.getElementById('input-id').value;
+  const outputId = document.getElementById('output-id').value;
 
-      fetch('http://localhost:3000/update-gtm-table', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ folderName }),
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        alert('Carpeta agregada correctamente');
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        alert('Error al agregar la carpeta');
-      });
-    });
-  </script>
-</body>
-</html>
+  fetch('https://prueba-q44y.onrender.com/update-gtm-table', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ inputId, outputId }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Success:', data);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+});
+</script>
