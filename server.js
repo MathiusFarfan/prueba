@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 const oAuth2Client = new google.auth.OAuth2(
   '305681698109-d8r1urok95d2t48qdsm27to81r9psmlo.apps.googleusercontent.com',
   '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',
-  'https://prueba-q44y.onrender.com'
+  'https://prueba-q44y.onrender.com/oauth2callback'
   //'https://prueba-q44y.onrender.com/oauth2callback'
 );
 
@@ -45,7 +45,8 @@ app.post('/update-gtm-table', async (req, res) => {
     console.log('hola');
     // Obtener la última versión del contenedor
     const container = await gtm.accounts.containers.get({
-      path: 'accounts/6228833093/containers/183956141'
+      path: 'container/accounts/6228833093/containers/183956141/workspaces/5'
+      //path: 'accounts/6228833093/containers/183956141'
       //accountId: '6228833093',
       //containerId: '183956141'
       
