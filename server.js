@@ -30,6 +30,9 @@ app.get('/auth', (req, res) => {
 });
 
 //-------------------
+// Inicializar el cliente de Google Tag Manager
+const gtm = google.tagmanager({ version: 'v2', auth: oAuth2Client });
+
 async function getContainerName() {
   try {
     // Obtener la información del contenedor
