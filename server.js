@@ -48,7 +48,7 @@ app.post('/update-gtm-table', async (req, res) => {
       containerId: '183956141'
     });
     const latestVersion = container.data.containerVersionId;
-
+    console.log(latestVersion);
     // Actualizar la versión del contenedor con los nuevos valores
     const updatedContainer = await gtm.accounts.containers.versions.update({
       path: 'container/accounts/6228833093/containers/183956141/workspaces/5/variables',
