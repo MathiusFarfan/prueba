@@ -51,10 +51,8 @@ app.post('/update-gtm-table', async (req, res) => {
 
     // Actualizar la versión del contenedor con los nuevos valores
     const updatedContainer = await gtm.accounts.containers.versions.update({
-      accountId: '6228833093',
-      containerId: '183956141',
-      containerVersionId: latestVersion,
-      resource: {
+      path: `accounts/6228833093/containers/183956141/versions/${latestVersion}`,
+      requestBody: {
         ...container.data,
         variable: container.data.variable.map(v => {
           if (v.name === 'varprueba') {
