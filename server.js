@@ -29,6 +29,25 @@ app.get('/auth', (req, res) => {
   res.redirect(authUrl);
 });
 
+//-------------------
+async function getContainerName() {
+  try {
+    // Obtener la información del contenedor
+    const container = await gtm.accounts.containers.get({
+      path: 'accounts/6228833093/containers/183956141'
+    });
+
+    // Extraer el nombre del contenedor
+    const containerName = container.data.name;
+
+    console.log('Nombre del contenedor:', containerName);
+  } catch (error) {
+    console.error('Error al obtener el nombre del contenedor:', error);
+  }
+}
+// Llamar a la función para obtener el nombre del contenedor
+getContainerName();
+//---------------------
 // Ruta de redirección para el callback de OAuth
 app.get('/oauth2callback', async (req, res) => {
   const { code } = req.query;
