@@ -13,18 +13,9 @@
     ];
 
     function checkAuth(immediate) {
-      var authorizeCheckPromise = new Promise((resolve) => {
-        gapi.auth.authorize(
-          { client_id: CLIENT_ID, scope: SCOPES.join(' '), immediate: immediate },
-          resolve);
-      });
-      authorizeCheckPromise
-          .then(handleAuthResult)
-          .then(loadTagManagerApi)
-          .then(listContainers)
-          .catch(() => {
-            console.log('You must authorize any access to the api.');
-          });
+      gapi.auth.authorize(
+        { client_id: CLIENT_ID, scope: SCOPES.join(' '), immediate: immediate },
+        handleAuthResult);
     }
 
     function handleAuthClick(event) {
@@ -33,23 +24,17 @@
     }
 
     function handleAuthResult(authResult) {
-      return new Promise((resolve, reject) => {
-        var authorizeDiv = document.getElementById('authorize-div');
-        if (authResult && !authResult.error) {
-          authorizeDiv.style.display = 'none';
-          resolve();
-        } else {
-          authorizeDiv.style.display = 'inline';
-          reject();
-        }
-      });
+      var authorizeDiv = document.getElementById('authorize-div');
+      if (authResult && !authResult.error) {
+        authorizeDiv.style.display = 'none';
+        loadTagManagerApi();
+      } else {
+        authorizeDiv.style.display = 'inline';
+      }
     }
 
     function loadTagManagerApi() {
-      return new Promise((resolve, reject) => {
-        console.log('Load Tag Manager API');
-        gapi.client.load('tagmanager', 'v2', resolve);
-      });
+      gapi.client.load('tagmanager', 'v2', listContainers);
     }
 
     function listContainers() {
@@ -95,6 +80,7 @@
   <pre id="output"></pre>
 </body>
 </html>
+
 
 
     
