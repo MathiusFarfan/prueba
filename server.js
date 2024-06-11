@@ -5,7 +5,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware para servir archivos estáticos desde el directorio 'public'
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 // Ruta para manejar cualquier otra solicitud
 app.use((req, res) => {
