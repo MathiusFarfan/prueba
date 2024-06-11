@@ -29,33 +29,26 @@ app.get('/auth', (req, res) => {
   res.redirect(authUrl);
 });
 
-// Ruta de redirección para el callback de OAuth
-app.get('/oauth2callback', async (req, res) => {
-  const { code } = req.query;
-  const { tokens } = await oAuth2Client.getToken(code);
-  oAuth2Client.setCredentials(tokens);
-  res.send('Autenticación exitosa. Ahora puedes cerrar esta ventana.');
-});
-
 // Ruta para actualizar la tabla en GTM
 app.post('/update-gtm-table', async (req, res) => {
   const { inputId, outputId } = req.body;
   try {
     const gtm = google.tagmanager({ version: 'v2', auth: oAuth2Client });
-    const containerVersion = await gtm.accounts.containers.versions.latest({
-      accountId: process.env.GTM_ACCOUNT_ID,
-      containerId: process.env.GTM_CONTAINER_ID,
+    const containers = await gtm.accounts.containers.list({
+      parent: `accounts/${process.env.GTM_ACCOUNT_ID}`,
     });
+    const container = containers.data.container.find(c => c.containerId === process.env.GTM_CONTAINER_ID);
+    const containerVersion = await gtm.accounts.containers.versions.list({
+      parent: `accounts/${process.env.GTM_ACCOUNT_ID}/containers/${container.containerId}`,
+    });
+    const latestVersion = containerVersion.data.containerVersion[0];
 
-    const variable = containerVersion.data.variable.find(v => v.name === process.env.GTM_VARIABLE_NAME);
+    const variable = latestVersion.variable.find(v => v.name === process.env.GTM_VARIABLE_NAME);
     variable.parameter.push({ key: 'input', value: inputId });
     variable.parameter.push({ key: 'output', value: outputId });
 
-    await gtm.accounts.containers.versions.update({
-      accountId: process.env.GTM_ACCOUNT_ID,
-      containerId: process.env.GTM_CONTAINER_ID,
-      containerVersionId: containerVersion.data.containerVersionId,
-      resource: containerVersion.data,
+    await gtm.accounts.containers.versions.publish({
+      path: `accounts/${process.env.GTM_ACCOUNT_ID}/containers/${container.containerId}/versions/${latestVersion.containerVersionId}`,
     });
 
     res.status(200).json({ message: 'Table updated successfully' });
