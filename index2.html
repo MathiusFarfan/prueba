@@ -4,6 +4,11 @@
   <head>
     <script type="text/javascript">
 
+app.use((req, res, next) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+  next();
+});
     // Your Client ID can be retrieved from your project in the Google
     // Developer Console, https://console.developers.google.com
     var CLIENT_ID = '305681698109-qe2crqmglgm92fh4vk86gqseg5qosdma.apps.googleusercontent.com';
