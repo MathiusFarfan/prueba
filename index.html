@@ -13,7 +13,7 @@
               function(err) { console.error("Error signing in", err); });
   }
   function loadClient() {
-    gapi.client.setApiKey("YOUR_API_KEY");
+    gapi.client.setApiKey("AIzaSyBGiIbddPOQQpX8Id4GRnQTCkiUDw8BpMM");
     return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/tagmanager/v2/rest")
         .then(function() { console.log("GAPI client loaded for API"); },
               function(err) { console.error("Error loading GAPI client for API", err); });
@@ -21,7 +21,7 @@
   // Make sure the client is loaded and sign-in is complete before calling this method.
   function execute() {
     return gapi.client.tagmanager.accounts.containers.workspaces.variables.update({
-      "path": "accounts/6228833093/containers/183956141/workspaces/7/variables/6",
+      "path": "accounts/6228833093/containers/183956141/workspaces/8/variables/6",
       "resource": {
         "name": "varprueba",
         "type": "smm",
@@ -82,7 +82,7 @@
               function(err) { console.error("Execute error", err); });
   }
   gapi.load("client:auth2", function() {
-    gapi.auth2.init({client_id: "YOUR_CLIENT_ID"});
+    gapi.auth2.init({client_id: "6228833093"});
   });
 </script>
 <button onclick="authenticate().then(loadClient)">authorize and load</button>
