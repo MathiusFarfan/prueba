@@ -4,16 +4,11 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use((req, res, next) => {
-  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
-  res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
-  next();
-});
 // Middleware para servir archivos estáticos desde el directorio 'public'
 //app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index2.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Ruta para manejar cualquier otra solicitud
