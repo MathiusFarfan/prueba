@@ -1,4 +1,4 @@
-<script src="https://apis.google.com/js/api.js"></script>
+<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 <script>
   /**
    * Sample JavaScript code for tagmanager.accounts.containers.workspaces.variables.update
@@ -81,9 +81,14 @@
               },
               function(err) { console.error("Execute error", err); });
   }
-  gapi.load("client:auth2", function() {
+  function init() {
+  gapi.load('auth2', function() {
     gapi.auth2.init({client_id: "305681698109-qe2crqmglgm92fh4vk86gqseg5qosdma.apps.googleusercontent.com"});
   });
+}
+  // gapi.load("client:auth2", function() {
+  //   gapi.auth2.init({client_id: "305681698109-qe2crqmglgm92fh4vk86gqseg5qosdma.apps.googleusercontent.com"});
+  // });
 </script>
 <button onclick="authenticate().then(loadClient)">authorize and load</button>
 <button onclick="execute()">execute</button>
